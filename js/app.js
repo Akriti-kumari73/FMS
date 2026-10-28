@@ -4,7 +4,7 @@
  */
 
 // Configure Backend API Base URL
-const API_BASE = (window.location.port === '8080') ? '/api' : 'http://localhost:8080/api';
+const API_BASE = (window.location.protocol.startsWith('http')) ? '/api' : 'http://localhost:8080/api';
 
 // Intelligent Navigation Helper across root, /AccSoft/, and file:// protocols
 function getAppNavUrl(page) {
