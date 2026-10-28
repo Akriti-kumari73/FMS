@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AccSoft 2.0 - IES University Bhopal | Student Fee Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jspdf.min.js"></script>
+</head>
+<body>
+
+    <!-- Institutional Top Information Strip -->
+    <div class="ies-top-strip">
+        <div class="strip-left">
+            <span class="strip-tag">🏛️ IES UNIVERSITY BHOPAL</span>
+            <span>AccSoft 2.0 Student & Parent Self-Service Fee Portal</span>
+        </div>
+        <div class="strip-right">
+            <span>📅 Academic Session: <strong>2024-2025</strong></span>
+            <span>📍 Ratibad Main Road, Bhopal</span>
+        </div>
+    </div>
+
+    <!-- Navbar with 3-line Hamburger Menu -->
+    <header class="navbar">
+        <div class="navbar-left">
+            <button class="hamburger-btn" id="sidebar-toggle" onclick="toggleStudentSidebar()" aria-label="Toggle Sidebar Menu" title="Menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <a href="student_dashboard.html" class="brand" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                <div style="width: 38px; height: 38px; background: #ffffff; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 22px; border: 2px solid #f59e0b;">
+                    🏛️
+                </div>
+                <div>
+                    <div style="font-size: 16px; font-weight: 800; color: #ffffff; letter-spacing: -0.2px;">
+                        IES UNIVERSITY BHOPAL
+                    </div>
+                    <div style="font-size: 11px; color: #f59e0b; font-weight: 600;">
+                        AccSoft ERP 2.0 | Student Fee & Clearance Services
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="nav-links">
+            <span id="student-name-display" style="font-weight: 700; color: #f59e0b; font-size: 13.5px;">Loading Scholar...</span>
+            <button class="btn-logout" onclick="logout()" style="padding: 6px 14px; font-size: 12.5px;">Logout</button>
+        </div>
+    </header>
+
+    <!-- App Shell: Sidebar + Content -->
+    <div class="app-container">
+        
+        <!-- Mobile Sidebar Backdrop -->
+        <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="toggleStudentSidebar()"></div>
+
+        <!-- 3-Line Collapsible Sidebar for Student -->
+        <aside class="app-sidebar" id="app-sidebar">
+            <div class="sidebar-header">
+                <div>
+                    <h3>Scholar Portal</h3>
+                    <div style="font-size: 10px; color: #94a3b8;">AccSoft 2.0 Self-Service</div>
+                </div>
+                <span style="font-size: 10.5px; background: rgba(245, 158, 11, 0.2); color: #f59e0b; padding: 2px 7px; border-radius: 4px; font-weight: 700;">STUDENT</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="sidebar-category">Fee Services</div>
+                <button class="sidebar-link active" id="side-link-fees" onclick="switchStudentSidebarTab('fees')">
+                    <div class="sidebar-link-content">
+                        <span class="icon">💳</span>
+                        <span>My Fees Due</span>
+                    </div>
+                </button>
+                <button class="sidebar-link" id="side-link-tokens" onclick="switchStudentSidebarTab('tokens')">
+                    <div class="sidebar-link-content">
+                        <span class="icon">🎟️</span>
+                        <span>Counter Tokens</span>
+                    </div>
+                </button>
+                <button class="sidebar-link" id="side-link-history" onclick="switchStudentSidebarTab('history')">
+                    <div class="sidebar-link-content">
+                        <span class="icon">📜</span>
+                        <span>History & Receipts</span>
+                    </div>
+                </button>
+
+                <div class="sidebar-category">Academic & Examination</div>
+                <button class="sidebar-link" id="side-link-idcard" onclick="switchStudentSidebarTab('idcard')">
+                    <div class="sidebar-link-content">
+                        <span class="icon">🆔</span>
+                        <span>Digital Scholar ID Card</span>
+                    </div>
+                </button>
+                <button class="sidebar-link" id="side-link-clearance" onclick="switchStudentSidebarTab('clearance')">
+                    <div class="sidebar-link-content">
+                        <span class="icon">📋</span>
+                        <span>No Dues & Hall Ticket</span>
+                    </div>
+                </button>
+                <button class="sidebar-link" id="side-link-academics" onclick="switchStudentSidebarTab('academics')">
+                    <div class="sidebar-link-content">
+                        <span class="icon">📚</span>
+                        <span>Subjects & Attendance</span>
+                    </div>
+                </button>
+                <button class="sidebar-link" id="side-link-notices" onclick="switchStudentSidebarTab('notices')">
+                    <div class="sidebar-link-content">
+                        <span class="icon">📢</span>
+                        <span>University Notices</span>
+                    </div>
+                </button>
+
+                <div class="sidebar-category">Account & Support</div>
+                <button class="sidebar-link" id="side-link-profile" onclick="switchStudentSidebarTab('profile')">
+                    <div class="sidebar-link-content">
+                        <span class="icon">👤</span>
+                        <span>Academic Profile</span>
+                    </div>
+                </button>
+                <button class="sidebar-link" id="side-link-helpdesk" onclick="switchStudentSidebarTab('helpdesk')">
+                    <div class="sidebar-link-content">
+                        <span class="icon">💬</span>
+                        <span>Support & Grievances</span>
+                    </div>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar-sm" id="sidebar-avatar-initials" style="background: #f59e0b; color: #081d33;">ST</div>
+                    <div class="user-info-text">
+                        <h5 id="sidebar-user-name">Scholar</h5>
+                        <p id="sidebar-user-roll">IES/----</p>
+                    </div>
+                </div>
+                <button class="chip-btn" onclick="logout()" style="padding: 4px 10px; font-size: 11px; background: rgba(255,255,255,0.1); color: #ffffff;">Exit</button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="app-main">
+
+            <!-- Student Profile Card Banner with Course Status -->
+            <div class="card" style="background: linear-gradient(135deg, #0a2540 0%, #1e3a8a 100%); color: white; padding: 22px; margin-bottom: 22px; border-left: 5px solid #f59e0b;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                    <div style="display: flex; align-items: center; gap: 18px;">
+                        <div id="student-avatar-initials" style="width: 58px; height: 58px; border-radius: 50%; background: #f59e0b; color: #0a2540; font-size: 20px; font-weight: 800; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.25);">
+                            ST
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: #f59e0b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Scholar Enrollment Record</div>
+                            <h2 id="student-id-display" style="font-size: 22px; font-weight: 800; color: #ffffff; margin-bottom: 2px;">STU----</h2>
+                            <p id="student-meta-display" style="color: #cbd5e1; font-size: 13.5px; margin: 0;">Course - Branch | Semester</p>
+                        </div>
+                    </div>
+                    <div>
+                        <!-- Live Course Status Badge (Ongoing vs Completed) -->
+                        <span id="student-course-status-badge" class="badge" style="background: rgba(255,255,255,0.15); color: white; padding: 8px 18px; font-size: 13.5px; border: 1px solid rgba(255,255,255,0.25);">
+                            🟢 Status: Ongoing (Pursuing)
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student Personal Financial Metrics -->
+            <div class="stats-grid" style="margin-bottom: 24px;">
+                <div class="stat-card stat-due">
+                    <div class="stat-icon" style="background: #ffebee; color: #c62828;">⚠️</div>
+                    <div class="stat-info">
+                        <h4>My Outstanding Dues</h4>
+                        <p id="total-due-display" style="color: #c62828;">₹0.00</p>
+                    </div>
+                </div>
+                <div class="stat-card stat-paid">
+                    <div class="stat-icon" style="background: #e8f5e9; color: #2e7d32;">✓</div>
+                    <div class="stat-info">
+                        <h4>My Total Fees Paid</h4>
+                        <p id="total-paid-display" style="color: #2e7d32;">₹0.00</p>
+                    </div>
+                </div>
+                <div class="stat-card stat-tokens">
+                    <div class="stat-icon" style="background: #e1f5fe; color: #0288d1;">🎟️</div>
+                    <div class="stat-info">
+                        <h4>Active Counter Tokens</h4>
+                        <p id="active-tokens-display" style="color: #0288d1;">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB 1: FEES DUE (ONLINE / OFFLINE PAYMENT) -->
+            <!-- ========================================== -->
+            <div id="section-fees" class="tab-content active">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">💳 Pending Fee Obligations</h3>
+                            <p class="text-muted" style="font-size: 13px; margin-top: 4px;">
+                                Select <strong>Pay Online</strong> for instant card/UPI transaction or <strong>Pay Offline</strong> to book an accounts counter slot.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Student Fee Cards Grid -->
+                    <div id="fees-container" class="fee-grid">
+                        <div class="text-center text-muted" style="grid-column: 1 / -1; padding: 30px;">
+                            Loading pending fee obligations...
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB 2: MY OFFLINE TOKENS                   -->
+            <!-- ========================================== -->
+            <div id="section-tokens" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">🎟️ My Accounts Counter Tokens</h3>
+                            <p class="text-muted" style="font-size: 13px; margin-top: 4px;">
+                                Present your assigned appointment token at the college accounts window (Window #2) to pay via Cash or Demand Draft.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="tokens-table">
+                            <thead>
+                                <tr>
+                                    <th>Token Number</th>
+                                    <th>Fee Obligation</th>
+                                    <th>Scheduled Slot</th>
+                                    <th>Booked On</th>
+                                    <th>Status</th>
+                                    <th>Challan Slip</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="6" class="text-center text-muted">No offline tokens generated yet.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB 3: PAYMENT HISTORY & OFFICIAL RECEIPTS -->
+            <!-- ========================================== -->
+            <div id="section-history" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">📜 My Fee Ledger & Official Receipts</h3>
+                            <p class="text-muted" style="font-size: 13px; margin-top: 4px;">
+                                Verified historical records of all your online and offline desk payments. Download PDF receipts anytime.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Fee ID</th>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Payment Date</th>
+                                    <th>Mode</th>
+                                    <th>Status</th>
+                                    <th>Download Receipt</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="7" class="text-center text-muted">No transaction history.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB 4: MY ACADEMIC PROFILE                 -->
+            <!-- ========================================== -->
+            <div id="section-profile" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">👤 My Student Academic Profile</h3>
+                            <p class="text-muted" style="font-size: 13px; margin-top: 4px;">
+                                View and keep your academic registration, course status, and personal details up to date.
+                            </p>
+                        </div>
+                    </div>
+
+                    <form onsubmit="handleUpdateProfile(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="prof-id">Unique Student ID</label>
+                                <input type="text" id="prof-id" readonly style="background: #f8fafc; font-weight: 700; color: #004d40;">
+                            </div>
+                            <div class="form-group">
+                                <label for="prof-email">Registered Email</label>
+                                <input type="email" id="prof-email" readonly style="background: #f8fafc;">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="prof-name">Full Name *</label>
+                                <input type="text" id="prof-name" required placeholder="Full Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="prof-father">Father's Name</label>
+                                <input type="text" id="prof-father" placeholder="Father's Name">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="prof-dob">Date of Birth</label>
+                                <input type="date" id="prof-dob">
+                            </div>
+                            <div class="form-group">
+                                <label for="prof-course">Course / Degree</label>
+                                <select id="prof-course">
+                                    <option value="B.Tech">B.Tech</option>
+                                    <option value="M.Tech">M.Tech</option>
+                                    <option value="BCA">BCA</option>
+                                    <option value="MCA">MCA</option>
+                                    <option value="BBA">BBA</option>
+                                    <option value="MBA">MBA</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="prof-branch">Branch / Department</label>
+                                <input type="text" id="prof-branch" placeholder="e.g. CSE">
+                            </div>
+                            <div class="form-group">
+                                <label for="prof-semester">Current Semester</label>
+                                <select id="prof-semester">
+                                    <option value="1st">1st Semester</option>
+                                    <option value="2nd">2nd Semester</option>
+                                    <option value="3rd">3rd Semester</option>
+                                    <option value="4th">4th Semester</option>
+                                    <option value="5th">5th Semester</option>
+                                    <option value="6th">6th Semester</option>
+                                    <option value="7th">7th Semester</option>
+                                    <option value="8th">8th Semester</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="prof-batch">Academic Batch</label>
+                                <input type="text" id="prof-batch" placeholder="e.g. 2024-2028">
+                            </div>
+                            <div class="form-group">
+                                <label for="prof-status">Course Completion Status</label>
+                                <input type="text" id="prof-status" readonly style="background: #f8fafc; font-weight: 700; color: #00695c;">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" id="btn-save-profile">
+                            ✓ Save Profile Changes
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB 5: DIGITAL SCHOLAR ID CARD             -->
+            <!-- ========================================== -->
+            <div id="section-idcard" class="tab-content">
+                <div class="card">
+                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                        <div>
+                            <h3 class="card-title">🆔 Digital Scholar Identity Card</h3>
+                            <p class="text-muted" style="font-size: 13px; margin-top: 4px;">
+                                Official IES University biometric-verified student digital credential card.
+                            </p>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button type="button" class="btn btn-outline" onclick="flipStudentIdCard()" style="font-size: 12.5px; padding: 7px 14px;">
+                                🔄 Flip ID Card
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="downloadStudentIdCardPdf()" style="font-size: 12.5px; padding: 7px 14px;">
+                                📥 Download ID Card (PDF)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ID Card 3D Flip Wrapper -->
+                    <div class="idcard-container">
+                        <div class="idcard-card" id="student-idcard-card">
+                            
+                            <!-- ID Card Front Side -->
+                            <div class="idcard-side" id="idcard-front-view">
+                                <div class="idcard-header">
+                                    <div style="font-size: 11px; font-weight: 800; letter-spacing: 0.5px; color: #f59e0b;">
+                                        🏛️ IES UNIVERSITY BHOPAL
+                                    </div>
+                                    <div style="font-size: 9px; color: #cbd5e1; margin-top: 1px;">
+                                        AccSoft ERP 2.0 | STUDENT IDENTITY CARD
+                                    </div>
+                                </div>
+
+                                <div class="idcard-photo-box" id="idcard-avatar">ST</div>
+
+                                <div style="text-align: center; padding: 0 16px;">
+                                    <h3 id="idcard-name" style="font-size: 16px; font-weight: 800; color: #0b3b60; margin-bottom: 2px;">Scholar Name</h3>
+                                    <div id="idcard-roll" style="font-size: 12px; font-weight: 700; color: #f59e0b; letter-spacing: 1px;">STU1001</div>
+                                    <span class="badge" id="idcard-course-badge" style="background: #e0f2fe; color: #0369a1; font-size: 11px; margin-top: 4px;">B.Tech - CSE</span>
+                                </div>
+
+                                <div style="padding: 14px 20px; font-size: 11.5px; color: #334155; line-height: 1.6; margin-top: 4px;">
+                                    <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #e2e8f0; padding: 3px 0;">
+                                        <span class="text-muted">Father's Name:</span>
+                                        <strong id="idcard-father">-</strong>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #e2e8f0; padding: 3px 0;">
+                                        <span class="text-muted">Academic Batch:</span>
+                                        <strong id="idcard-batch">2024-2028</strong>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #e2e8f0; padding: 3px 0;">
+                                        <span class="text-muted">Semester:</span>
+                                        <strong id="idcard-semester">1st Sem</strong>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #e2e8f0; padding: 3px 0;">
+                                        <span class="text-muted">Blood Group:</span>
+                                        <strong style="color: #dc2626;">O+ Positive</strong>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding: 3px 0;">
+                                        <span class="text-muted">Validity:</span>
+                                        <strong style="color: #15803d;">Active (Till 2028)</strong>
+                                    </div>
+                                </div>
+
+                                <div class="idcard-barcode">
+                                    |||| | | |||||| | |||| |
+                                    <div style="font-size: 9px; letter-spacing: 1px; color: #64748b; font-family: sans-serif; margin-top: 2px;">
+                                        BARCODE ENCODED SCHOLAR RECORD
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ID Card Back Side -->
+                            <div class="idcard-side idcard-back-side" id="idcard-back-view">
+                                <div style="background: #0b3b60; color: white; padding: 10px; text-align: center; font-size: 11px; font-weight: 700; border-bottom: 2px solid #f59e0b;">
+                                    CAMPUS POLICIES & PRIVILEGES
+                                </div>
+
+                                <div style="padding: 16px; font-size: 11px; color: #334155; line-height: 1.5; flex: 1;">
+                                    <p style="margin-bottom: 8px;"><strong>Terms & Regulations:</strong></p>
+                                    <ol style="padding-left: 16px; margin: 0 0 12px 0;">
+                                        <li>This card is non-transferable and remains property of IES University.</li>
+                                        <li>Must be worn visibly inside the campus premises, libraries, & labs.</li>
+                                        <li>Loss of card must be reported immediately to Proctor's Office.</li>
+                                    </ol>
+                                    
+                                    <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px; margin-top: 10px;">
+                                        <div>📍 <strong>Campus:</strong> Ratibad Main Road, Bhopal (M.P.)</div>
+                                        <div>📞 <strong>Helpline:</strong> 0755-4088888 | 1800-102-4437</div>
+                                        <div>🌐 <strong>Portal:</strong> accsoft.iesuniversity.ac.in</div>
+                                    </div>
+
+                                    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 30px;">
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 22px;">🏛️</div>
+                                            <div style="font-size: 9px; font-weight: 700; color: #0b3b60;">UNIVERSITY SEAL</div>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="font-family: 'Brush Script MT', cursive; font-size: 18px; color: #1e3a8a;">K.K. Sharma</div>
+                                            <div style="font-size: 9.5px; font-weight: 700; border-top: 1px solid #334155; padding-top: 2px;">
+                                                Registrar / Auth Signatory
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB 6: NO DUES & EXAMINATION HALL TICKET   -->
+            <!-- ========================================== -->
+            <div id="section-clearance" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">📋 Institutional Clearance & Examination Hall Ticket</h3>
+                            <p class="text-muted" style="font-size: 13px; margin-top: 4px;">
+                                Real-time verification of college fee clearance, library records, and exam admit card eligibility.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 4 Clearance Pillars Grid -->
+                    <div class="clearance-grid">
+                        <!-- 1. Accounts Directorate -->
+                        <div class="clearance-item" id="clearance-item-finance">
+                            <div class="clearance-icon" id="clearance-icon-finance" style="background: #e0f2fe; color: #0284c7;">💳</div>
+                            <div>
+                                <h4 style="font-size: 13.5px; margin-bottom: 2px; color: #0f172a;">Accounts & Tuition Fee</h4>
+                                <div id="clearance-status-finance" style="font-size: 12px; font-weight: 700; color: #0284c7;">Checking dues...</div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Central Library -->
+                        <div class="clearance-item cleared">
+                            <div class="clearance-icon" style="background: #dcfce7; color: #15803d;">📚</div>
+                            <div>
+                                <h4 style="font-size: 13.5px; margin-bottom: 2px; color: #0f172a;">University Central Library</h4>
+                                <div style="font-size: 12px; font-weight: 700; color: #15803d;">✓ Cleared (0 Books Due)</div>
+                            </div>
+                        </div>
+
+                        <!-- 3. Laboratory / Department -->
+                        <div class="clearance-item cleared">
+                            <div class="clearance-icon" style="background: #dcfce7; color: #15803d;">🔬</div>
+                            <div>
+                                <h4 style="font-size: 13.5px; margin-bottom: 2px; color: #0f172a;">Laboratory & Equipment</h4>
+                                <div style="font-size: 12px; font-weight: 700; color: #15803d;">✓ Cleared (No Dues)</div>
+                            </div>
+                        </div>
+
+                        <!-- 4. Proctor & Attendance -->
+                        <div class="clearance-item cleared">
+                            <div class="clearance-icon" style="background: #dcfce7; color: #15803d;">📊</div>
+                            <div>
+                                <h4 style="font-size: 13.5px; margin-bottom: 2px; color: #0f172a;">Proctor & Attendance</h4>
+                                <div style="font-size: 12px; font-weight: 700; color: #15803d;">✓ 84.1% (Eligible &gt;= 75%)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Examination Hall Ticket / Admit Card Container -->
+                    <div class="hallticket-box" id="hallticket-container">
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; border-bottom: 2px solid #e2e8f0; padding-bottom: 14px; margin-bottom: 16px;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div style="font-size: 32px;">🏛️</div>
+                                <div>
+                                    <h4 style="font-size: 16px; font-weight: 800; color: #0b3b60; margin: 0;">
+                                        IES UNIVERSITY END-SEMESTER EXAMINATION 2024-25
+                                    </h4>
+                                    <div style="font-size: 12px; color: #64748b;">Controller of Examinations | Hall Ticket Voucher</div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-primary" id="btn-download-hallticket" onclick="downloadExamAdmitCardPdf()" style="padding: 9px 18px; font-size: 13px;">
+                                📥 Download Exam Admit Card (PDF)
+                            </button>
+                        </div>
+
+                        <div id="hallticket-status-msg" style="padding: 12px 16px; border-radius: 6px; font-size: 13px; margin-bottom: 16px;"></div>
+
+                        <div class="table-responsive">
+                            <table style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Course Code</th>
+                                        <th>Subject Name</th>
+                                        <th>Examination Date</th>
+                                        <th>Time Slot</th>
+                                        <th>Exam Center</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>CS-501</strong></td>
+                                        <td>Theory of Computation</td>
+                                        <td>02-Dec-2024</td>
+                                        <td>10:00 AM – 01:00 PM</td>
+                                        <td>IES Central Hall A</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>CS-502</strong></td>
+                                        <td>Database Management Systems</td>
+                                        <td>05-Dec-2024</td>
+                                        <td>10:00 AM – 01:00 PM</td>
+                                        <td>IES Central Hall A</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>CS-503</strong></td>
+                                        <td>Computer Networks</td>
+                                        <td>08-Dec-2024</td>
+                                        <td>10:00 AM – 01:00 PM</td>
+                                        <td>IES Central Hall B</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>CS-504</strong></td>
+                                        <td>Cloud Computing & DevOps</td>
+                                        <td>11-Dec-2024</td>
+                                        <td>10:00 AM – 01:00 PM</td>
+                                        <td>IES Central Hall B</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>CS-505</strong></td>
+                                        <td>Web Technologies & Full Stack Lab</td>
+                                        <td>14-Dec-2024</td>
+                                        <td>02:00 PM – 05:00 PM</td>
+                                        <td>Software Lab #03</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB 7: SUBJECTS & ATTENDANCE TRACKER       -->
+            <!-- ========================================== -->
+            <div id="section-academics" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">📚 Current Semester Subjects & Class Attendance</h3>
+                            <p class="text-muted" style="font-size: 13px; margin-top: 4px;">
+                                Monitoring academic compliance and minimum 75% attendance criteria for university exam sitting.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Attendance Visual Gauge -->
+                    <div class="attendance-gauge-wrap">
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div style="width: 64px; height: 64px; border-radius: 50%; background: #15803d; color: white; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; box-shadow: 0 4px 12px rgba(21,128,61,0.3);">
+                                84%
+                            </div>
+                            <div>
+                                <h4 style="font-size: 17px; font-weight: 800; color: #0b3b60; margin-bottom: 2px;">Aggregate Attendance Status</h4>
+                                <div style="font-size: 13px; color: #15803d; font-weight: 700;">
+                                    ✅ Eligible for End-Semester Examinations (Threshold: 75%)
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 20px;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 12px; color: #64748b;">Delivered Lectures</div>
+                                <div style="font-size: 18px; font-weight: 800; color: #0f172a;">240</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 12px; color: #64748b;">Attended Lectures</div>
+                                <div style="font-size: 18px; font-weight: 800; color: #15803d;">202</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 12px; color: #64748b;">Credits Enrolled</div>
+                                <div style="font-size: 18px; font-weight: 800; color: #0284c7;">24 Credits</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Subject Code</th>
+                                    <th>Subject Name</th>
+                                    <th>Faculty In-Charge</th>
+                                    <th>Held</th>
+                                    <th>Attended</th>
+                                    <th>Percentage</th>
+                                    <th>Sitting Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>CS-501</strong></td>
+                                    <td>Theory of Computation</td>
+                                    <td>Prof. S.K. Sharma</td>
+                                    <td>48</td>
+                                    <td>41</td>
+                                    <td>
+                                        <div style="font-weight: 700; color: #15803d;">85.4%</div>
+                                        <div class="attendance-pill-bar"><div class="attendance-pill-fill" style="width: 85.4%; background: #15803d;"></div></div>
+                                    </td>
+                                    <td><span class="badge" style="background: #dcfce7; color: #15803d;">Eligible</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>CS-502</strong></td>
+                                    <td>Database Management Systems</td>
+                                    <td>Dr. Neha Verma</td>
+                                    <td>50</td>
+                                    <td>42</td>
+                                    <td>
+                                        <div style="font-weight: 700; color: #15803d;">84.0%</div>
+                                        <div class="attendance-pill-bar"><div class="attendance-pill-fill" style="width: 84%; background: #15803d;"></div></div>
+                                    </td>
+                                    <td><span class="badge" style="background: #dcfce7; color: #15803d;">Eligible</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>CS-503</strong></td>
+                                    <td>Computer Networks</td>
+                                    <td>Prof. Amit Saxena</td>
+                                    <td>46</td>
+                                    <td>42</td>
+                                    <td>
+                                        <div style="font-weight: 700; color: #15803d;">91.3%</div>
+                                        <div class="attendance-pill-bar"><div class="attendance-pill-fill" style="width: 91.3%; background: #15803d;"></div></div>
+                                    </td>
+                                    <td><span class="badge" style="background: #dcfce7; color: #15803d;">Eligible</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>CS-504</strong></td>
+                                    <td>Cloud Computing & DevOps</td>
+                                    <td>Dr. Priya Nair</td>
+                                    <td>46</td>
+                                    <td>36</td>
+                                    <td>
+                                        <div style="font-weight: 700; color: #f59e0b;">78.2%</div>
+                                        <div class="attendance-pill-bar"><div class="attendance-pill-fill" style="width: 78.2%; background: #f59e0b;"></div></div>
+                                    </td>
+                                    <td><span class="badge" style="background: #fef3c7; color: #b45309;">Satisfactory</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>CS-505</strong></td>
+                                    <td>Web Technologies & Full Stack Lab</td>
+                                    <td>Er. Rohit Joshi</td>
+                                    <td>50</td>
+                                    <td>41</td>
+                                    <td>
+                                        <div style="font-weight: 700; color: #15803d;">82.0%</div>
+                                        <div class="attendance-pill-bar"><div class="attendance-pill-fill" style="width: 82%; background: #15803d;"></div></div>
+                                    </td>
+                                    <td><span class="badge" style="background: #dcfce7; color: #15803d;">Eligible</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB 8: UNIVERSITY NOTICE BOARD             -->
+            <!-- ========================================== -->
+            <div id="section-notices" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">📢 Official University Notices & Circulars</h3>
+                            <p class="text-muted" style="font-size: 13px; margin-top: 4px;">
+                                Latest circulars issued by Directorate of Student Affairs & Examination Cell.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap;">
+                        <button type="button" class="chip-btn" style="background: #0b3b60; color: white;">All Notices</button>
+                        <button type="button" class="chip-btn">Examinations</button>
+                        <button type="button" class="chip-btn">Fee Directorate</button>
+                        <button type="button" class="chip-btn">Scholarships</button>
+                        <button type="button" class="chip-btn">Placements</button>
+                    </div>
+
+                    <!-- Notice 1 -->
+                    <div class="notice-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <span class="notice-badge" style="background: #fee2e2; color: #dc2626;">🔴 URGENT / EXAMINATIONS</span>
+                            <span style="font-size: 11.5px; color: #64748b;">📅 Oct 20, 2024 | Ref: IES/EXAM/2024/118</span>
+                        </div>
+                        <h4 style="font-size: 15px; color: #0b3b60; margin-bottom: 6px;">
+                            End-Semester Theory & Practical Examination Schedule (December 2024 Session)
+                        </h4>
+                        <p style="font-size: 13px; color: #475569; margin-bottom: 10px;">
+                            All registered students of B.Tech, M.Tech, MBA, and MCA are hereby notified that the final semester examination shall commence from 02-December-2024. Clear fee obligations to ensure hall ticket generation.
+                        </p>
+                        <button type="button" class="btn btn-outline" onclick="showToast('Circular downloaded: IES_Exam_Dec24.pdf', 'success')" style="font-size: 12px; padding: 5px 12px;">
+                            📄 Download PDF Circular
+                        </button>
+                    </div>
+
+                    <!-- Notice 2 -->
+                    <div class="notice-card" style="border-left-color: #f59e0b;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <span class="notice-badge" style="background: #fef3c7; color: #b45309;">💰 FEE DIRECTORE</span>
+                            <span style="font-size: 11.5px; color: #64748b;">📅 Oct 15, 2024 | Ref: IES/FEE/2024/092</span>
+                        </div>
+                        <h4 style="font-size: 15px; color: #0b3b60; margin-bottom: 6px;">
+                            Payment of Academic Year 2024-25 Semester Dues via Online Gateway & Cash Window
+                        </h4>
+                        <p style="font-size: 13px; color: #475569; margin-bottom: 10px;">
+                            Students can pay their semester dues seamlessly via AccSoft 2.0 online payment portal (0% surcharge on UPI) or generate an offline counter token to deposit cash at Window #02 between 09:30 AM to 03:30 PM.
+                        </p>
+                        <button type="button" class="btn btn-outline" onclick="showToast('Circular downloaded: IES_Fee_Policy.pdf', 'success')" style="font-size: 12px; padding: 5px 12px;">
+                            📄 Download PDF Circular
+                        </button>
+                    </div>
+
+                    <!-- Notice 3 -->
+                    <div class="notice-card" style="border-left-color: #10b981;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <span class="notice-badge" style="background: #d1fae5; color: #059669;">🎓 SCHOLARSHIPS</span>
+                            <span style="font-size: 11.5px; color: #64748b;">📅 Oct 10, 2024 | Ref: IES/SCHOLAR/2024/44</span>
+                        </div>
+                        <h4 style="font-size: 15px; color: #0b3b60; margin-bottom: 6px;">
+                            MP-TAAS Post-Matric SC/ST/OBC Scholarship Portal Verification Desk Open
+                        </h4>
+                        <p style="font-size: 13px; color: #475569; margin-bottom: 10px;">
+                            Students eligible for Madhya Pradesh Post-Matric Scholarship, MMVY, and AICTE Pragati schemes are advised to submit their online acknowledgment slips to the Central Accounts Office for biometric verification.
+                        </p>
+                        <button type="button" class="btn btn-outline" onclick="showToast('Circular downloaded: MP_TAAS_Notice.pdf', 'success')" style="font-size: 12px; padding: 5px 12px;">
+                            📄 Download PDF Circular
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB 9: STUDENT SUPPORT & GRIEVANCE DESK    -->
+            <!-- ========================================== -->
+            <div id="section-helpdesk" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title">💬 Student Fee Support & Grievance Desk</h3>
+                            <p class="text-muted" style="font-size: 13px; margin-top: 4px;">
+                                Submit inquiries regarding online transaction reconciliation, offline slot rescheduling, or fee receipt corrections.
+                            </p>
+                        </div>
+                    </div>
+
+                    <form onsubmit="handleStudentGrievance(event)" style="margin-bottom: 24px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 18px;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="grv-category">Inquiry Category *</label>
+                                <select id="grv-category" required class="accsoft-input">
+                                    <option value="Online Payment Deduction Issue">Online Payment Deduction Issue</option>
+                                    <option value="Cash Counter Slot Rescheduling">Cash Counter Slot Rescheduling</option>
+                                    <option value="Fee Installment Request">Fee Installment Request</option>
+                                    <option value="Scholarship Adjustment Query">Scholarship Adjustment Query</option>
+                                    <option value="Receipt Duplicate Request">Receipt Duplicate Request</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="grv-priority">Urgency Priority</label>
+                                <select id="grv-priority" class="accsoft-input">
+                                    <option value="Normal">Normal (Response in 48 hrs)</option>
+                                    <option value="High">High Priority (24 hrs)</option>
+                                    <option value="Critical">Critical (Immediate - Exam sitting affected)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="grv-subject">Subject / Transaction Reference *</label>
+                            <input type="text" id="grv-subject" class="accsoft-input" required placeholder="e.g. Amount deducted from UPI but receipt shows unpaid">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="grv-message">Detailed Description *</label>
+                            <textarea id="grv-message" rows="3" class="accsoft-input" required placeholder="Provide transaction ID, date, bank name, or details of your issue..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" id="btn-submit-grv">
+                            📩 Submit Ticket to Accounts Directorate
+                        </button>
+                    </form>
+
+                    <h4 style="font-size: 15px; color: #0b3b60; margin-bottom: 12px;">My Submitted Support Tickets</h4>
+                    <div class="table-responsive">
+                        <table id="grievance-table">
+                            <thead>
+                                <tr>
+                                    <th>Ticket ID</th>
+                                    <th>Category</th>
+                                    <th>Subject</th>
+                                    <th>Submitted On</th>
+                                    <th>Status</th>
+                                    <th>Admin Response</th>
+                                </tr>
+                            </thead>
+                            <tbody id="grievance-tbody">
+                                <tr>
+                                    <td><strong>#IES-TKT-8012</strong></td>
+                                    <td>Online Payment Issue</td>
+                                    <td>UPI fee transaction confirmation</td>
+                                    <td>18-Oct-2024</td>
+                                    <td><span class="badge" style="background: #dcfce7; color: #15803d;">Resolved</span></td>
+                                    <td>Payment reconciled and receipt generated in ledger.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Official IES AccSoft 2.0 Footer -->
+            <footer style="text-align: center; padding: 20px; font-size: 12px; color: #64748b; border-top: 1px solid #e2e8f0; margin-top: 28px; background: #ffffff; border-radius: var(--radius-sm);">
+                <div><strong>AccSoft 2.0 Web Campus ERP</strong> — A Product for Educational Institutes by Emperor Solutions Pvt. Ltd.</div>
+                <div style="margin-top: 4px; color: #94a3b8;">© 2024–2025 IES University Bhopal | Student Self-Service Portal</div>
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL 1: ONLINE PAYMENT GATEWAY MODAL      -->
+    <!-- ========================================== -->
+    <div id="online-payment-modal" class="modal-overlay">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModals()">×</button>
+            <h3 style="color: #004d40; margin-bottom: 4px;">Online Fee Payment Gateway</h3>
+            <p class="text-muted" style="font-size: 13px; margin-bottom: 16px;">
+                Fee: <strong id="pay-modal-fee-title">-</strong> | Total: <strong id="pay-modal-amount" style="color: #2e7d32;">₹0.00</strong>
+            </p>
+
+            <div class="pay-options">
+                <button type="button" class="pay-option-btn active" id="tab-pay-upi" data-mode="upi" onclick="selectPayOption('upi')">
+                    📱 UPI / QR Code
+                </button>
+                <button type="button" class="pay-option-btn" id="tab-pay-card" data-mode="card" onclick="selectPayOption('card')">
+                    💳 Debit / Credit Card
+                </button>
+                <button type="button" class="pay-option-btn" id="tab-pay-netbanking" data-mode="netbanking" onclick="selectPayOption('netbanking')">
+                    🏛️ Net Banking
+                </button>
+            </div>
+
+            <!-- UPI Section -->
+            <div id="pay-section-upi">
+                <div style="text-align: center; background: #f5fbf9; padding: 18px; border-radius: 8px; margin-bottom: 15px; border: 1.5px dashed #80cbc4;">
+                    <div style="font-size: 40px; margin-bottom: 6px;">📲</div>
+                    <div style="font-weight: 700; color: #004d40;">Scan QR Code or Enter UPI ID</div>
+                    <p style="font-size: 12px; color: #607d8b;">Compatible with GPay, PhonePe, Paytm, BHIM</p>
+                </div>
+                <div class="form-group">
+                    <label>Virtual Payment Address (VPA / UPI ID)</label>
+                    <input type="text" id="upi-id-input" placeholder="e.g. rahul@okhdfcbank" value="student@upi">
+                </div>
+            </div>
+
+            <!-- Card Section -->
+            <div id="pay-section-card" class="hidden">
+                <div class="form-group">
+                    <label>Card Number</label>
+                    <input type="text" placeholder="4532 •••• •••• 8821" value="4532 9988 7766 1234">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Expiry (MM/YY)</label>
+                        <input type="text" placeholder="12/28" value="10/28">
+                    </div>
+                    <div class="form-group">
+                        <label>CVV</label>
+                        <input type="password" maxlength="3" placeholder="123" value="321">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Cardholder Name</label>
+                    <input type="text" placeholder="Name on card" value="Rahul Sharma">
+                </div>
+            </div>
+
+            <!-- Net Banking Section -->
+            <div id="pay-section-netbanking" class="hidden">
+                <div class="form-group">
+                    <label>Select Your Bank</label>
+                    <select>
+                        <option>State Bank of India (SBI)</option>
+                        <option>HDFC Bank</option>
+                        <option>ICICI Bank</option>
+                        <option>Axis Bank</option>
+                        <option>Punjab National Bank (PNB)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <button type="button" class="btn btn-success btn-block" id="btn-confirm-payment" onclick="submitOnlinePayment()">
+                    Confirm & Pay <span id="pay-button-amount">₹0.00</span> Securely
+                </button>
+            </div>
+            <p style="text-align: center; font-size: 12px; color: #90a4ae; margin-top: 10px;">
+                🔒 256-Bit SSL Encrypted Official Payment Gateway
+            </p>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL 2: OFFLINE PAYMENT TOKEN BOOKING     -->
+    <!-- ========================================== -->
+    <div id="offline-token-modal" class="modal-overlay">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModals()">×</button>
+            <h3 style="color: #004d40; margin-bottom: 6px;">🎟️ Book Accounts Counter Token</h3>
+            <p class="text-muted" style="font-size: 13px; margin-bottom: 16px;">
+                For paying by Cash or Demand Draft (DD) at the College Accounts Counter.
+            </p>
+
+            <div class="alert alert-info">
+                <strong>How offline token works:</strong><br>
+                1. A designated appointment slot is reserved for you at Window #2.<br>
+                2. Print or save the Challan Token Slip.<br>
+                3. Visit the counter on your date with exact cash/DD.<br>
+                4. Cashier confirms payment and issues your verified receipt.
+            </div>
+
+            <div style="background: #f4f6f6; padding: 14px; border-radius: 6px; margin-bottom: 16px;">
+                <div>Fee Description: <strong id="token-modal-fee-title">-</strong></div>
+                <div>Amount to Pay at Counter: <strong id="token-modal-amount" style="color: #00695c;">₹0.00</strong></div>
+                <div style="font-size: 13px; color: #546e7a; margin-top: 4px;">Validity: 7 working days from booking</div>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block" id="btn-confirm-token" onclick="submitGenerateOfflineToken()">
+                Generate Token & Book Counter Slot →
+            </button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL 3: OFFLINE CHALLAN / TOKEN SLIP      -->
+    <!-- ========================================== -->
+    <div id="challan-slip-modal" class="modal-overlay">
+        <div class="modal-box" style="text-align: center;">
+            <button class="modal-close" onclick="closeModals()">×</button>
+            <h3 style="color: #004d40;">🏛️ College Accounts Counter Slip</h3>
+            <p class="text-muted" style="font-size: 13px;">Official Offline Payment Appointment Slip</p>
+
+            <div class="token-slip">
+                <div style="font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #004d40; font-weight: 700;">Counter Token Number</div>
+                <div class="token-code" id="slip-token-code">TKN-XXXXXXXX</div>
+                <div class="token-slot">
+                    📅 Date: <span id="slip-slot-date">-</span> | ⏰ Slot: <span id="slip-slot-time">-</span>
+                </div>
+                <div style="font-size: 13px; color: #37474f;">
+                    Student: <strong id="slip-student">-</strong><br>
+                    Fee Type: <span id="slip-fee-type">-</span> | Amount: <strong id="slip-amount">-</strong>
+                </div>
+            </div>
+
+            <p style="font-size: 12px; color: #546e7a; margin-bottom: 16px;">
+                Please present this token code at Accounts Desk (Window #2) during your assigned appointment time.
+            </p>
+
+            <button type="button" class="btn btn-secondary" onclick="window.print()">
+                🖨️ Print Slip
+            </button>
+            <button type="button" class="btn btn-primary" onclick="closeModals()">
+                Done
+            </button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL 4: PAYMENT SUCCESS MODAL             -->
+    <!-- ========================================== -->
+    <div id="payment-success-modal" class="modal-overlay">
+        <div class="modal-box text-center">
+            <div style="font-size: 52px; color: #2e7d32; margin-bottom: 8px;">🎉</div>
+            <h3 style="color: #2e7d32; margin-bottom: 4px;">Payment Successful!</h3>
+            <p class="text-muted" style="font-size: 13px; margin-bottom: 18px;">
+                Your payment has been received and verified by the university.
+            </p>
+
+            <div style="background: #f1f8e9; border: 1px solid #c8e6c9; border-radius: 8px; padding: 16px; margin-bottom: 20px; text-align: left;">
+                <div style="margin-bottom: 6px;">Transaction ID: <strong id="success-txn-id" style="color: #2e7d32;">-</strong></div>
+                <div style="margin-bottom: 6px;">Fee Description: <span id="success-fee-type">-</span></div>
+                <div style="margin-bottom: 6px;">Amount Paid: <strong id="success-amount">-</strong></div>
+                <div>Timestamp: <span id="success-date">-</span></div>
+            </div>
+
+            <button type="button" class="btn btn-success btn-block" id="btn-download-success-receipt" style="margin-bottom: 10px;">
+                📄 Download Official PDF Receipt
+            </button>
+            <button type="button" class="btn btn-outline btn-block" onclick="closeModals()">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadStudentDashboard();
+        });
+
+        function toggleStudentSidebar() {
+            document.body.classList.toggle('sidebar-closed');
+            document.body.classList.toggle('sidebar-open');
+            const btn = document.getElementById('sidebar-toggle');
+            if (btn) btn.classList.toggle('active');
+            const backdrop = document.getElementById('sidebar-backdrop');
+            if (backdrop) backdrop.classList.toggle('active');
+        }
+
+        function switchStudentSidebarTab(tabId) {
+            document.querySelectorAll('.sidebar-link').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById(`side-link-${tabId}`);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            document.querySelectorAll('.tab-content').forEach(view => view.classList.remove('active'));
+            const activeView = document.getElementById(`section-${tabId}`);
+            if (activeView) activeView.classList.add('active');
+
+            if (window.innerWidth <= 992) {
+                document.body.classList.remove('sidebar-open');
+                const backdrop = document.getElementById('sidebar-backdrop');
+                if (backdrop) backdrop.classList.remove('active');
+                const btn = document.getElementById('sidebar-toggle');
+                if (btn) btn.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>

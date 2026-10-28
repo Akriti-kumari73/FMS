@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AccSoft 2.0 ERP - IES University & Group of Institutions, Bhopal | Central Finance Console</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/jspdf.min.js"></script>
+</head>
+<body>
+
+    <!-- Institutional Top Information Strip (IES University Bhopal) -->
+    <div class="ies-top-strip">
+        <div class="strip-left">
+            <span class="strip-tag">🏛️ IES UNIVERSITY BHOPAL</span>
+            <span>UGC Recognized | AICTE Approved | MP PURC | IGBC Gold Certified Green Campus</span>
+        </div>
+        <div class="strip-right">
+            <span>📅 Academic Session: <strong>2024-2025</strong></span>
+            <span>📍 Campus: Ratibad Main Road, Bhopal (M.P.)</span>
+            <span>📞 Helpdesk: 0755-4088888</span>
+        </div>
+    </div>
+
+    <!-- Main Navigation Bar with 3-line Hamburger Menu -->
+    <header class="navbar">
+        <div class="navbar-left">
+            <button class="hamburger-btn" id="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle Navigation Drawer" title="Toggle ERP Navigation">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <a href="admin_dashboard.html" class="brand" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+                <div style="width: 42px; height: 42px; background: #ffffff; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 2px solid #f59e0b;">
+                    🏛️
+                </div>
+                <div>
+                    <div style="font-size: 17px; font-weight: 800; color: #ffffff; letter-spacing: -0.3px; line-height: 1.1;">
+                        IES UNIVERSITY & GROUP OF INSTITUTIONS
+                    </div>
+                    <div style="font-size: 11.5px; color: #f59e0b; font-weight: 600; letter-spacing: 0.3px;">
+                        AccSoft ERP 2.0 | Central Accounts, Finance & Fees Directorate
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="nav-links">
+            <span style="font-size: 12.5px; background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); padding: 5px 12px; border-radius: 20px; font-weight: 600;">
+                🟢 Cash Counter Window #02 Active
+            </span>
+            <div style="display: flex; align-items: center; gap: 10px; margin-left: 10px;">
+                <div style="text-align: right; line-height: 1.2;">
+                    <div style="font-size: 12.5px; font-weight: 700; color: #ffffff;">Accounts Officer</div>
+                    <div style="font-size: 10.5px; color: #94a3b8;">Finance Division (Admin)</div>
+                </div>
+                <button class="btn-logout" onclick="logout()" style="padding: 7px 14px; font-size: 12.5px;">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- App Shell: Sidebar + Content -->
+    <div class="app-container">
+        
+        <!-- Mobile Sidebar Backdrop -->
+        <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="toggleSidebar()"></div>
+
+        <!-- 3-Line Collapsible ERP Navigation Sidebar -->
+        <aside class="app-sidebar" id="app-sidebar">
+            <div class="sidebar-header">
+                <div>
+                    <h3>AccSoft ERP 2.0 Console</h3>
+                    <div style="font-size: 10px; color: #94a3b8;">IES Group Central System</div>
+                </div>
+                <span style="font-size: 10.5px; background: rgba(245, 158, 11, 0.2); color: #f59e0b; padding: 2px 8px; border-radius: 4px; font-weight: 700;">ADMIN</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="sidebar-category">Institutional Analytics</div>
+                <button class="sidebar-link active" id="side-link-overview" onclick="switchSidebarTab('overview')">
+                    <div class="sidebar-link-content">
+                        <span class="icon">📊</span>
+                        <span>Institutional Overview</span>
+                    </div>
+                </button>
+                <button class="sidebar-link" id="side-link-dept-analytics" onclick="switchSidebarTab('dept-analytics')">
+                    <div class="sidebar-link-content">
+                        <span class="icon">📈</span>
+                        <span>Department Recovery</span>
+                    </div>
+                </button>
+
+                <div class="sidebar-category">Scholar Management Cell</div>
+                <button class="sidebar-link" id="side-link-students" onclick="switchSidebarTab('students')">
+                    <div class="sidebar-link-content">
+                        <span class="icon">👥</span>
+                        <span>Enrolled Scholars Directory</span>
+                    </div>
+                    <span class="sidebar-badge" id="side-badge-students">0</span>
+                </button>
+                <button class="sidebar-link" id="side-link-completed" onclick="switchSidebarTab('completed')">
+                    <div class="sidebar-link-content">
+                        <span class="icon">🎓</span>
+                        <span>Course Completed Cell</span>
+                    </div>
+                    <span class="sidebar-badge" id="side-badge-completed" style="background: #ce93d8; color: #4a148c;">0</span>
+                </button>
+                <button class="sidebar-link" id="side-link-defaulters" onclick="switchSidebarTab('defaulters')">
+                    <div class="sidebar-link-content">
+                        <span class="icon">⚠️</span>
+                        <span>Defaulters & Arrears Desk</span>
+                    </div>
+                    <span class="sidebar-badge" id="side-badge-defaulters" style="background: #ef4444;">0</span>
+                </button>
+                <button class="sidebar-link" id="side-link-add-student" onclick="switchSidebarTab('add-student')">
+                    <div class="sidebar-link-content">
+                        <span class="icon">👨‍🎓</span>
+                        <span>New Scholar Admission</span>
+                    </div>
+                    <span class="sidebar-badge" style="background: #22c55e;">+New</span>
+                </button>
+
+                <div class="sidebar-category">Central Cash & Fee Directorate</div>
+                <button class="sidebar-link" id="side-link-tokens" onclick="switchSidebarTab('tokens')">
+                    <div class="sidebar-link-content">
+                        <span class="icon">🎟️</span>
+                        <span>Cash Counter Desk</span>
+                    </div>
+                    <span class="sidebar-badge" id="side-badge-tokens" style="background: #ef4444;">0</span>
+                </button>
+                <button class="sidebar-link" id="side-link-settlement" onclick="switchSidebarTab('settlement')">
+                    <div class="sidebar-link-content">
+                        <span class="icon">🏦</span>
+                        <span>Day-End Cash Settlement</span>
+                    </div>
+                </button>
+                <button class="sidebar-link" id="side-link-assign" onclick="switchSidebarTab('assign')">
+                    <div class="sidebar-link-content">
+                        <span class="icon">➕</span>
+                        <span>Demand Fee Assignment</span>
+                    </div>
+                </button>
+                <button class="sidebar-link" id="side-link-fees" onclick="switchSidebarTab('fees')">
+                    <div class="sidebar-link-content">
+                        <span class="icon">📑</span>
+                        <span>Master University Ledger</span>
+                    </div>
+                </button>
+                <button class="sidebar-link" id="side-link-scholarship" onclick="switchSidebarTab('scholarship')">
+                    <div class="sidebar-link-content">
+                        <span class="icon">🎓</span>
+                        <span>Scholarship & Concessions</span>
+                    </div>
+                </button>
+
+                <div class="sidebar-category">System Audit & Logs</div>
+                <button class="sidebar-link" id="side-link-audit" onclick="switchSidebarTab('audit')">
+                    <div class="sidebar-link-content">
+                        <span class="icon">📜</span>
+                        <span>Activity & Audit Trail</span>
+                    </div>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar-sm">IES</div>
+                    <div class="user-info-text">
+                        <h5>IES Central Admin</h5>
+                        <p>Accounts Cashier #02</p>
+                    </div>
+                </div>
+                <button class="chip-btn" onclick="logout()" style="padding: 4px 10px; font-size: 11px; background: rgba(255,255,255,0.1); color: #ffffff;">Exit</button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="app-main">
+
+            <!-- Institutional Header Banner with IES AccSoft Theme -->
+            <div class="card" style="background: linear-gradient(135deg, #0a2540 0%, #1e3a8a 100%); color: white; padding: 20px 24px; margin-bottom: 22px; border-left: 6px solid #f59e0b; box-shadow: 0 4px 18px rgba(10, 37, 64, 0.15);">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+                            <span class="badge" style="background: #f59e0b; color: #0a2540; font-weight: 800; font-size: 11px; padding: 3px 10px;">
+                                IES UNIVERSITY ERP PORTAL
+                            </span>
+                            <span style="font-size: 13px; color: #cbd5e1;">Directorate of Finance & Student Accounts</span>
+                        </div>
+                        <h2 style="font-size: 22px; font-weight: 800; letter-spacing: -0.3px; color: #ffffff; margin-bottom: 4px;">
+                            Executive Institutional Collections & Scholar Fee Registry
+                        </h2>
+                        <p style="font-size: 13px; color: #94a3b8; margin: 0;">
+                            Live monitoring of online payment gateways, Accounts Counter cash verification, admission enrollments, and course graduation clearance.
+                        </p>
+                    </div>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="btn btn-accent" onclick="switchSidebarTab('add-student')" style="font-size: 13px; padding: 9px 18px;">
+                            👨‍🎓 Enroll Scholar
+                        </button>
+                        <button class="btn btn-outline" onclick="loadAdminDashboard()" style="background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.3); font-size: 13px; padding: 9px 18px;">
+                            🔄 Refresh Live Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6 Institutional AccSoft KPI Cards (Including Total Offline Fee & Completed Students) -->
+            <div class="kpi-grid-6">
+                <!-- 1. Total Enrolled Scholars -->
+                <div class="stat-card" style="border-left: 5px solid #1e3a8a; background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);">
+                    <div class="stat-icon" style="background: #dbeafe; color: #1e40af;">👨‍🎓</div>
+                    <div class="stat-info">
+                        <h4>Total Enrolled Scholars</h4>
+                        <p id="admin-total-students">0</p>
+                    </div>
+                </div>
+
+                <!-- 2. Gross Collections (Combined) -->
+                <div class="stat-card stat-paid">
+                    <div class="stat-icon" style="background: #dcfce7; color: #15803d;">💰</div>
+                    <div class="stat-info">
+                        <h4>Gross Fee Realization</h4>
+                        <p id="admin-total-revenue" style="color: #15803d;">₹0.00</p>
+                    </div>
+                </div>
+
+                <!-- 3. TOTAL OFFLINE FEE (Specific User Requirement) -->
+                <div class="stat-card stat-offline" style="border-left: 5px solid #0284c7; background: linear-gradient(145deg, #ffffff 0%, #f0f9ff 100%);">
+                    <div class="stat-icon" style="background: #e0f2fe; color: #0284c7;">💵</div>
+                    <div class="stat-info">
+                        <h4>Total Offline Fee (Cash Desk)</h4>
+                        <p id="admin-total-offline" style="color: #0284c7;">₹0.00</p>
+                    </div>
+                </div>
+
+                <!-- 4. Total Online Fee -->
+                <div class="stat-card" style="border-left: 5px solid #10b981; background: linear-gradient(145deg, #ffffff 0%, #ecfdf5 100%);">
+                    <div class="stat-icon" style="background: #d1fae5; color: #059669;">🌐</div>
+                    <div class="stat-info">
+                        <h4>Total Online Gateway Fee</h4>
+                        <p id="admin-total-online" style="color: #059669;">₹0.00</p>
+                    </div>
+                </div>
+
+                <!-- 5. COURSE COMPLETED STUDENTS (Specific User Requirement) -->
+                <div class="stat-card stat-completed" style="border-left: 5px solid #9333ea; background: linear-gradient(145deg, #ffffff 0%, #faf5ff 100%);">
+                    <div class="stat-icon" style="background: #f3e8ff; color: #9333ea;">🎓</div>
+                    <div class="stat-info">
+                        <h4>Course Completed (Degree Eligible)</h4>
+                        <p id="admin-completed-students" style="color: #9333ea;">0</p>
+                    </div>
+                </div>
+
+                <!-- 6. Total Unpaid Fee Dues -->
+                <div class="stat-card stat-due" style="border-left: 5px solid #dc2626; background: linear-gradient(145deg, #ffffff 0%, #fef2f2 100%);">
+                    <div class="stat-icon" style="background: #fee2e2; color: #dc2626;">⏳</div>
+                    <div class="stat-info">
+                        <h4>Outstanding Fee Arrears</h4>
+                        <p id="admin-unpaid-count" style="color: #dc2626;">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Collections Breakdown Progress Ratio (IES Institutional Realization Meter) -->
+            <div class="analytics-bar-card" style="border: 1px solid #e2e8f0; background: #ffffff;">
+                <h4 style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px; margin-bottom: 14px;">
+                    <span style="color: #0f2942; font-weight: 700;">📊 University Revenue Realization Meter (Online Gateway vs Cash Counter vs Arrears)</span>
+                    <span class="text-muted" style="font-size: 12px; font-weight: normal;">Live Financial Aggregation</span>
+                </h4>
+                <div class="progress-bar-multi" style="height: 14px; border-radius: 8px;">
+                    <div class="prog-segment prog-online" id="prog-seg-online" style="width: 33%; background: #10b981;" title="Online Gateway"></div>
+                    <div class="prog-segment prog-offline" id="prog-seg-offline" style="width: 33%; background: #0284c7;" title="Cash Counter Window"></div>
+                    <div class="prog-segment prog-unpaid" id="prog-seg-unpaid" style="width: 34%; background: #ef4444;" title="Outstanding Arrears"></div>
+                </div>
+                <div class="legend-row" style="margin-top: 14px;">
+                    <div class="legend-item">
+                        <span class="legend-dot" style="background: #10b981;"></span>
+                        <span>Online Gateways (Cards/UPI): <strong id="lbl-online-amount" style="color: #059669;">₹0.00</strong></span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot" style="background: #0284c7;"></span>
+                        <span>Cashier Counter Window: <strong id="lbl-offline-amount" style="color: #0284c7;">₹0.00</strong></span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot" style="background: #ef4444;"></span>
+                        <span>Institutional Unpaid Dues: <strong id="lbl-unpaid-amount" style="color: #dc2626;">₹0.00</strong></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB: OVERVIEW & QUICK ACTIONS              -->
+            <!-- ========================================== -->
+            <div id="section-overview" class="tab-content active">
+                <div class="card" style="margin-bottom: 22px;">
+                    <div class="card-header" style="border-bottom: 1px solid #f1f5f9; padding-bottom: 12px; margin-bottom: 16px;">
+                        <div>
+                            <h3 class="card-title" style="color: #0f2942;">⚡ IES AccSoft Quick Operational Hub</h3>
+                            <p class="text-muted" style="font-size: 12.5px; margin-top: 2px;">
+                                Fast navigation to core finance and scholar enrollment tasks
+                            </p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="switchSidebarTab('add-student')">
+                            ➕ Direct Scholar Admission Entry
+                        </button>
+                        <button class="btn btn-accent" onclick="switchSidebarTab('tokens')">
+                            🎟️ Cash Window Approval Desk (<span id="quick-pending-tokens">0</span> Pending)
+                        </button>
+                        <button class="btn btn-outline" onclick="switchSidebarTab('completed')" style="border-color: #9333ea; color: #9333ea;">
+                            🎓 Course Completed & Degree Cell
+                        </button>
+                        <button class="btn btn-outline" onclick="switchSidebarTab('assign')">
+                            💳 Demand Semester Fee Assignment
+                        </button>
+                        <button class="btn btn-outline" onclick="switchSidebarTab('fees')">
+                            📑 Master University Ledger
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Recent Tokens Preview -->
+                <div class="card">
+                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h3 class="card-title" style="color: #0f2942;">🕒 Pending Accounts Counter Token Verification (Window #02)</h3>
+                            <p class="text-muted" style="font-size: 12.5px; margin-top: 2px;">Scholars queued with cash/DD at the finance window</p>
+                        </div>
+                        <button class="btn btn-outline" style="padding: 6px 14px; font-size: 12px;" onclick="switchSidebarTab('tokens')">Open Full Cash Desk →</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="admin-recent-tokens-table">
+                            <thead>
+                                <tr>
+                                    <th>Token Number</th>
+                                    <th>Scholar Name (ID)</th>
+                                    <th>Fee Head</th>
+                                    <th>Amount</th>
+                                    <th>Assigned Slot</th>
+                                    <th>Cashier Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-tokens-tbody">
+                                <tr><td colspan="6" class="text-center text-muted">Loading pending tokens...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB: ALL ENROLLED STUDENTS DIRECTORY       -->
+            <!-- ========================================== -->
+            <div id="section-students" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title" style="color: #0f2942;">👥 Enrolled Scholars Master Directory</h3>
+                            <p class="text-muted" style="font-size: 12.5px; margin-top: 2px;">
+                                Central registry of all admitted scholars (self-registered & ERP admitted) with full parentage, branch & course completion status.
+                            </p>
+                        </div>
+                        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                            <button class="btn btn-primary" onclick="switchSidebarTab('add-student')" style="padding: 7px 16px; font-size: 13px;">
+                                ➕ New Scholar Admission
+                            </button>
+                            <div class="search-input-wrapper">
+                                <span class="search-icon">🔍</span>
+                                <input 
+                                    type="text" 
+                                    id="student-search-input" 
+                                    placeholder="Filter by name, scholar ID, branch, course..." 
+                                    oninput="filterAdminStudents()"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="admin-students-table">
+                            <thead>
+                                <tr>
+                                    <th>Scholar ID</th>
+                                    <th>Scholar Name</th>
+                                    <th>Email Address</th>
+                                    <th>Institute & Branch</th>
+                                    <th>Semester</th>
+                                    <th>Batch</th>
+                                    <th>Course Status</th>
+                                    <th>AccSoft ERP Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="8" class="text-center text-muted">Loading students from ERP database...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB: COURSE COMPLETED STUDENTS (Graduated) -->
+            <!-- ========================================== -->
+            <div id="section-completed" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title" style="color: #9333ea;">🎓 Course Completed & Degree Clearance Cell</h3>
+                            <p class="text-muted" style="font-size: 12.5px; margin-top: 2px;">
+                                Dedicated graduation cell tracking scholars who finished degree requirements ("kiska course complete ho gya") and No Dues Clearance (NDC).
+                            </p>
+                        </div>
+                        <div class="search-input-wrapper">
+                            <span class="search-icon">🔍</span>
+                            <input 
+                                type="text" 
+                                id="completed-search-input" 
+                                placeholder="Search completed scholar by name, ID, course..." 
+                                oninput="filterCompletedStudents()"
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Filter pills by program/course -->
+                    <div class="table-controls" style="margin-bottom: 16px;">
+                        <div class="filter-pills" id="completed-course-pills">
+                            <button class="filter-pill active" onclick="filterCompletedByCourse('all')">All Programs</button>
+                            <button class="filter-pill" onclick="filterCompletedByCourse('B.Tech')">B.Tech</button>
+                            <button class="filter-pill" onclick="filterCompletedByCourse('Diploma')">Diploma (Polytechnic)</button>
+                            <button class="filter-pill" onclick="filterCompletedByCourse('BCA')">BCA</button>
+                            <button class="filter-pill" onclick="filterCompletedByCourse('MCA')">MCA</button>
+                            <button class="filter-pill" onclick="filterCompletedByCourse('MBA')">MBA</button>
+                        </div>
+                        <div>
+                            <span class="badge" style="background: #f3e8ff; color: #7e22ce; font-size: 13px; padding: 6px 14px; border: 1px solid #d8b4fe;">
+                                🎓 Degree Eligible Scholars: <strong id="completed-count-badge">0</strong>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table id="admin-completed-table">
+                            <thead>
+                                <tr>
+                                    <th>Scholar ID</th>
+                                    <th>Scholar Full Name</th>
+                                    <th>Father's Name</th>
+                                    <th>Registered Email</th>
+                                    <th>Degree & Branch</th>
+                                    <th>Graduation Batch</th>
+                                    <th>Status</th>
+                                    <th>Clearance Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="8" class="text-center text-muted">Loading graduated scholars...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB: NEW SCHOLAR ADMISSION ENTRY           -->
+            <!-- ========================================== -->
+            <div id="section-add-student" class="tab-content">
+                <div class="card">
+                    <div class="card-header" style="border-bottom: 1px solid #f1f5f9; padding-bottom: 12px; margin-bottom: 18px;">
+                        <div>
+                            <h3 class="card-title" style="color: #0f2942;">👨‍🎓 IES University Scholar Admission Entry (AccSoft Form)</h3>
+                            <p class="text-muted" style="font-size: 12.5px; margin-top: 2px;">
+                                Central Admission entry registers scholar profile, allocates Scholar ID, and auto-generates demand semester tuition dues.
+                            </p>
+                        </div>
+                    </div>
+
+                    <form id="admin-add-student-form" onsubmit="handleAdminAddStudent(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="adm-add-name">Scholar Full Name *</label>
+                                <input type="text" id="adm-add-name" required placeholder="e.g. Rahul Sharma" autocomplete="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="adm-add-father">Father's / Guardian's Name *</label>
+                                <input type="text" id="adm-add-father" placeholder="e.g. Mr. Rajesh Sharma" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="adm-add-email">Institutional / Student Email *</label>
+                                <input type="email" id="adm-add-email" required placeholder="rahul@example.com" autocomplete="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="adm-add-dob">Date of Birth</label>
+                                <input type="date" id="adm-add-dob" value="2004-05-10">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="adm-add-course">Academic Degree Program *</label>
+                                <select id="adm-add-course">
+                                    <option value="B.Tech" selected>B.Tech (Bachelor of Technology)</option>
+                                    <option value="Diploma">Diploma (Polytechnic Engineering)</option>
+                                    <option value="BCA">BCA (Bachelor of Computer Applications)</option>
+                                    <option value="MCA">MCA (Master of Computer Applications)</option>
+                                    <option value="MBA">MBA (Master of Business Administration)</option>
+                                    <option value="M.Tech">M.Tech (Master of Technology)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="adm-add-branch">Branch / Department *</label>
+                                <input type="text" id="adm-add-branch" placeholder="e.g. Computer Science & Engineering (CSE)" value="CSE" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="adm-add-semester">Admission Semester</label>
+                                <select id="adm-add-semester">
+                                    <option value="1st" selected>1st Semester</option>
+                                    <option value="2nd">2nd Semester</option>
+                                    <option value="3rd">3rd Semester (Lateral Entry)</option>
+                                    <option value="4th">4th Semester</option>
+                                    <option value="5th">5th Semester</option>
+                                    <option value="6th">6th Semester</option>
+                                    <option value="7th">7th Semester</option>
+                                    <option value="8th">8th Semester</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="adm-add-batch">Academic Batch (Year)</label>
+                                <input type="text" id="adm-add-batch" placeholder="e.g. 2024-2028" value="2024-2028">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="adm-add-status">Course Status</label>
+                                <select id="adm-add-status">
+                                    <option value="Ongoing" selected>🟢 Ongoing Scholar (Currently Pursuing)</option>
+                                    <option value="Completed">🎓 Course Completed (Degree Eligible)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="adm-add-password">Initial Portal Password (Default: student123)</label>
+                                <input type="text" id="adm-add-password" placeholder="student123" value="student123">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" id="btn-admin-add-student" style="padding: 12px 28px; font-size: 14.5px;">
+                            ✓ Admit Scholar & Allocate Scholar Number
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB: OFFLINE CASH COUNTER DESK             -->
+            <!-- ========================================== -->
+            <div id="section-tokens" class="tab-content">
+                <div class="card">
+                    <div class="card-header" style="border-bottom: 1px solid #f1f5f9; padding-bottom: 12px; margin-bottom: 16px;">
+                        <div>
+                            <h3 class="card-title" style="color: #0f2942;">🎟️ Accounts Cash Counter Desk (Window #02)</h3>
+                            <p class="text-muted" style="font-size: 12.5px; margin-top: 2px;">
+                                Verify scholar Challan Slip with Cash or Demand Draft (DD), approve payment, and issue verified IES University receipt.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Table Controls -->
+                    <div class="table-controls">
+                        <div class="search-input-wrapper">
+                            <span class="search-icon">🔍</span>
+                            <input 
+                                type="text" 
+                                id="token-search-input" 
+                                placeholder="Search token code, scholar name, scholar ID..." 
+                                oninput="filterAdminTokens()"
+                            >
+                        </div>
+                        <div class="filter-pills" id="token-filter-pills">
+                            <button class="filter-pill active" onclick="filterAdminTokens('all')">All Tokens</button>
+                            <button class="filter-pill" onclick="filterAdminTokens('pending')">Pending Review</button>
+                            <button class="filter-pill" onclick="filterAdminTokens('approved')">Approved & Paid</button>
+                            <button class="filter-pill" onclick="filterAdminTokens('rejected')">Rejected</button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table id="admin-tokens-table">
+                            <thead>
+                                <tr>
+                                    <th>Token Number</th>
+                                    <th>Scholar Name (ID)</th>
+                                    <th>Fee Head</th>
+                                    <th>Amount</th>
+                                    <th>Scheduled Slot</th>
+                                    <th>Status</th>
+                                    <th>Cashier Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="7" class="text-center text-muted">Loading tokens from database...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB: ASSIGN DEMAND FEES                    -->
+            <!-- ========================================== -->
+            <div id="section-assign" class="tab-content">
+                <div class="card">
+                    <div class="card-header" style="border-bottom: 1px solid #f1f5f9; padding-bottom: 12px; margin-bottom: 16px;">
+                        <div>
+                            <h3 class="card-title" style="color: #0f2942;">➕ Demand Fee Assignment (By Cohort, Program or Individual)</h3>
+                            <p class="text-muted" style="font-size: 12.5px; margin-top: 2px;">
+                                Raise institutional fee demand notices across entire university, department, batch, or specific scholar.
+                            </p>
+                        </div>
+                    </div>
+
+                    <form id="assign-fees-form" onsubmit="handleAssignFees(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="assign-filter-type">Assign Target Group</label>
+                                <select id="assign-filter-type" onchange="toggleFilterValue(); updateAssigneeEstimate();">
+                                    <option value="all">All Enrolled Scholars</option>
+                                    <option value="course">By Degree Program (e.g. B.Tech)</option>
+                                    <option value="branch">By Branch / Discipline (e.g. CSE)</option>
+                                    <option value="semester">By Semester (e.g. 5th)</option>
+                                    <option value="batch">By Academic Batch (e.g. 2024-2028)</option>
+                                    <option value="student_id">Specific Scholar Unique ID</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="filter-value-group" style="display: none;">
+                                <label for="assign-filter-value">Filter Match Value</label>
+                                <input 
+                                    type="text" 
+                                    id="assign-filter-value" 
+                                    placeholder="e.g. CSE or 5th or STU1001" 
+                                    oninput="updateAssigneeEstimate()"
+                                >
+                            </div>
+                        </div>
+
+                        <!-- Live Target Estimate Banner -->
+                        <div style="margin-bottom: 18px;">
+                            <span id="assignee-count-estimate" class="badge" style="background: #e0f2fe; color: #0284c7; padding: 6px 12px; font-size: 13px;">
+                                Will assign to all scholars in directory.
+                            </span>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="assign-fee-type">Fee Head / Description</label>
+                                <select id="assign-fee-type">
+                                    <option value="Semester Tuition Fee">Semester Tuition Fee</option>
+                                    <option value="University Examination Fee">University Examination Fee</option>
+                                    <option value="Hostel & Mess Charges">Hostel & Mess Charges</option>
+                                    <option value="College Bus / Transport Fee">College Bus / Transport Fee</option>
+                                    <option value="Library & Laboratory Caution Money">Library & Laboratory Caution Money</option>
+                                    <option value="Degree Convocation & NDC Fee">Degree Convocation & NDC Fee</option>
+                                    <option value="Miscellaneous Academic Fee">Miscellaneous Academic Fee</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="assign-amount">Amount (INR) *</label>
+                                <input type="number" id="assign-amount" required placeholder="e.g. 45000" min="50">
+                                <div class="quick-chips" style="margin-top: 6px;">
+                                    <span>Quick Presets:</span>
+                                    <button type="button" class="chip-btn" onclick="setPresetAmount(1500)">+ ₹1,500</button>
+                                    <button type="button" class="chip-btn" onclick="setPresetAmount(2500)">+ ₹2,500</button>
+                                    <button type="button" class="chip-btn" onclick="setPresetAmount(28000)">+ ₹28,000</button>
+                                    <button type="button" class="chip-btn" onclick="setPresetAmount(45000)">+ ₹45,000</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="assign-due-date">Payment Due Date *</label>
+                                <input type="date" id="assign-due-date" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" id="btn-assign-fee-submit" style="padding: 12px 28px;">
+                            ✓ Issue Fee Demand Notice
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB: MASTER FINANCIAL LEDGER               -->
+            <!-- ========================================== -->
+            <div id="section-fees" class="tab-content">
+                <div class="card">
+                    <div class="card-header" style="border-bottom: 1px solid #f1f5f9; padding-bottom: 12px; margin-bottom: 16px;">
+                        <div>
+                            <h3 class="card-title" style="color: #0f2942;">📑 Master University Financial Ledger & Audit Trail</h3>
+                            <p class="text-muted" style="font-size: 12.5px; margin-top: 2px;">
+                                Complete institutional ledger of online gateway and cash counter fee payments with official transaction IDs.
+                            </p>
+                        </div>
+                        <div class="search-input-wrapper">
+                            <span class="search-icon">🔍</span>
+                            <input 
+                                type="text" 
+                                id="fee-search-input" 
+                                placeholder="Search voucher ID, scholar, mode, status..." 
+                                oninput="filterAdminFees()"
+                            >
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="admin-fees-table">
+                            <thead>
+                                <tr>
+                                    <th>Voucher ID</th>
+                                    <th>Scholar Name (ID)</th>
+                                    <th>Fee Head</th>
+                                    <th>Amount</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                    <th>Payment Mode</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="7" class="text-center text-muted">Loading master ledger...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB 7: DEPARTMENT FINANCIAL REALIZATION    -->
+            <!-- ========================================== -->
+            <div id="section-dept-analytics" class="tab-content">
+                <div class="card">
+                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                        <div>
+                            <h3 class="card-title" style="color: #0f2942;">📈 Department-wise Financial Realization & Recovery Cell</h3>
+                            <p class="text-muted" style="font-size: 12.5px; margin-top: 2px;">
+                                Comparative fee recovery metrics across academic departments and constituent institutes.
+                            </p>
+                        </div>
+                        <button type="button" class="btn btn-outline" onclick="exportDepartmentReportCsv()" style="font-size: 12.5px; padding: 7px 14px;">
+                            📥 Export Department Summary (CSV)
+                        </button>
+                    </div>
+
+                    <!-- Department Analytics Grid -->
+                    <div class="dept-grid" id="dept-analytics-grid">
+                        <!-- Loaded dynamically via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB 8: FEE DEFAULTERS & ARREARS DESK       -->
+            <!-- ========================================== -->
+            <div id="section-defaulters" class="tab-content">
+                <div class="card">
+                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                        <div>
+                            <h3 class="card-title" style="color: #0f2942;">⚠️ Fee Defaulters & Outstanding Arrears Desk</h3>
+                            <p class="text-muted" style="font-size: 12.5px; margin-top: 2px;">
+                                Identification of overdue scholar accounts, notice generation, and recovery tracking.
+                            </p>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button type="button" class="btn btn-outline" onclick="sendBulkFeeReminders()" style="font-size: 12.5px; padding: 7px 14px;">
+                                📲 Send Bulk SMS/Email Reminders
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="exportDefaultersCsv()" style="font-size: 12.5px; padding: 7px 14px;">
+                                📥 Export Defaulters Roster (CSV)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Defaulters Metric Strip -->
+                    <div class="stats-grid" style="margin-bottom: 20px;">
+                        <div class="stat-card" style="border-left: 4px solid #dc2626; background: #fff5f5;">
+                            <div class="stat-icon" style="background: #fee2e2; color: #dc2626;">⏳</div>
+                            <div class="stat-info">
+                                <h4>Total Defaulter Accounts</h4>
+                                <p id="defaulters-count" style="color: #dc2626;">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="border-left: 4px solid #b91c1c; background: #fff5f5;">
+                            <div class="stat-icon" style="background: #fee2e2; color: #b91c1c;">💸</div>
+                            <div class="stat-info">
+                                <h4>Total Arrears Outstanding</h4>
+                                <p id="defaulters-total-amount" style="color: #b91c1c;">₹0.00</p>
+                            </div>
+                        </div>
+                        <div class="stat-card" style="border-left: 4px solid #f59e0b; background: #fffbeb;">
+                            <div class="stat-icon" style="background: #fef3c7; color: #b45309;">📊</div>
+                            <div class="stat-info">
+                                <h4>Average Due per Scholar</h4>
+                                <p id="defaulters-avg-amount" style="color: #b45309;">₹0.00</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table id="defaulters-table">
+                            <thead>
+                                <tr>
+                                    <th>Scholar ID</th>
+                                    <th>Scholar Name</th>
+                                    <th>Program / Branch</th>
+                                    <th>Fee Head</th>
+                                    <th>Overdue Amount</th>
+                                    <th>Due Date</th>
+                                    <th>Recovery Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="defaulters-tbody">
+                                <tr><td colspan="7" class="text-center text-muted">Scanning arrears records...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB 9: DAY-END CASH SETTLEMENT SHEET       -->
+            <!-- ========================================== -->
+            <div id="section-settlement" class="tab-content">
+                <div class="card">
+                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                        <div>
+                            <h3 class="card-title" style="color: #0f2942;">🏦 Daily Cash Desk Settlement & Cashier Shift Handover</h3>
+                            <p class="text-muted" style="font-size: 12.5px; margin-top: 2px;">
+                                Official Day-End Cashier Handover Sheet matching live cash counter collections.
+                            </p>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="printCashSettlementPdf()" style="font-size: 12.5px; padding: 7px 14px;">
+                            🖨️ Print Daily Settlement Sheet (PDF)
+                        </button>
+                    </div>
+
+                    <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 20px; margin-bottom: 22px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+                            <div>
+                                <span style="font-size: 11px; font-weight: 800; background: #0b3b60; color: white; padding: 3px 8px; border-radius: 3px;">
+                                    DAILY CASH REGISTER
+                                </span>
+                                <h4 style="font-size: 17px; color: #0b3b60; margin: 4px 0 0 0;">
+                                    IES University Central Accounts Counter #01 & #02
+                                </h4>
+                            </div>
+                            <div style="text-align: right; font-size: 12.5px; color: #475569;">
+                                <div>📅 <strong>Date:</strong> <span id="settlement-date">-</span></div>
+                                <div>⏰ <strong>Shift:</strong> Morning (09:30 AM – 04:30 PM)</div>
+                            </div>
+                        </div>
+
+                        <!-- Settlement Summary Row -->
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 20px;">
+                            <div style="background: #ffffff; padding: 12px; border-radius: 6px; border: 1px solid #e2e8f0;">
+                                <div style="font-size: 11px; color: #64748b;">Head Cashier In-Charge</div>
+                                <div style="font-size: 14px; font-weight: 700; color: #0f2942;">R.K. Mishra (Emp #204)</div>
+                            </div>
+                            <div style="background: #ffffff; padding: 12px; border-radius: 6px; border: 1px solid #e2e8f0;">
+                                <div style="font-size: 11px; color: #64748b;">Assistant Cashier Window #2</div>
+                                <div style="font-size: 14px; font-weight: 700; color: #0f2942;">Sunita Patel (Emp #318)</div>
+                            </div>
+                            <div style="background: #ffffff; padding: 12px; border-radius: 6px; border: 1px solid #e2e8f0;">
+                                <div style="font-size: 11px; color: #64748b;">Verified Counter Receipts</div>
+                                <div style="font-size: 14px; font-weight: 700; color: #0284c7;" id="settlement-token-count">0 Tokens Approved</div>
+                            </div>
+                            <div style="background: #f0fdf4; padding: 12px; border-radius: 6px; border: 1px solid #bbf7d0;">
+                                <div style="font-size: 11px; color: #166534;">Net Cash Vault Handover</div>
+                                <div style="font-size: 18px; font-weight: 800; color: #15803d;" id="settlement-total-cash">₹0.00</div>
+                            </div>
+                        </div>
+
+                        <!-- Denominations Breakdown Table -->
+                        <h5 style="font-size: 13.5px; color: #0f2942; margin-bottom: 8px;">Physical Currency Denomination Reconciliation:</h5>
+                        <div class="table-responsive">
+                            <table class="settlement-table" style="background: #ffffff; border: 1px solid #cbd5e1;">
+                                <thead>
+                                    <tr style="background: #0b3b60; color: white;">
+                                        <th>Denomination</th>
+                                        <th>Notes Count</th>
+                                        <th>Subtotal (₹)</th>
+                                        <th>Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>₹500 Notes</strong></td>
+                                        <td id="denom-500-count">0</td>
+                                        <td id="denom-500-total">₹0.00</td>
+                                        <td style="color: #64748b;">Verified by Counting Machine</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>₹200 Notes</strong></td>
+                                        <td id="denom-200-count">0</td>
+                                        <td id="denom-200-total">₹0.00</td>
+                                        <td style="color: #64748b;">Physical Bundle Sealed</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>₹100 Notes</strong></td>
+                                        <td id="denom-100-count">0</td>
+                                        <td id="denom-100-total">₹0.00</td>
+                                        <td style="color: #64748b;">Counter Loose Cash</td>
+                                    </tr>
+                                    <tr style="background: #f8fafc; font-weight: 800; font-size: 14px;">
+                                        <td colspan="2" style="text-align: right;">Gross Physical Cash in Vault:</td>
+                                        <td id="denom-grand-total" style="color: #15803d;">₹0.00</td>
+                                        <td style="color: #15803d;">✓ Exact 100% Match</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Signatures Row -->
+                        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 36px; padding-top: 20px; border-top: 1px dashed #cbd5e1;">
+                            <div style="text-align: center;">
+                                <div style="font-family: 'Brush Script MT', cursive; font-size: 20px; color: #0b3b60;">R.K. Mishra</div>
+                                <div style="border-top: 1px solid #94a3b8; font-size: 11px; font-weight: 700; padding-top: 3px;">Head Cashier</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-family: 'Brush Script MT', cursive; font-size: 20px; color: #0b3b60;">Sunita Patel</div>
+                                <div style="border-top: 1px solid #94a3b8; font-size: 11px; font-weight: 700; padding-top: 3px;">Accounts Clerk</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-family: 'Brush Script MT', cursive; font-size: 20px; color: #0b3b60;">Dr. Arvind Joshi</div>
+                                <div style="border-top: 1px solid #94a3b8; font-size: 11px; font-weight: 700; padding-top: 3px;">Chief Finance Officer (CFO)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB 10: SCHOLARSHIP & FEE CONCESSIONS DESK -->
+            <!-- ========================================== -->
+            <div id="section-scholarship" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title" style="color: #0f2942;">🎓 Scholarship & Fee Concession Management Cell</h3>
+                            <p class="text-muted" style="font-size: 12.5px; margin-top: 2px;">
+                                Central & MP State Government scholarship schemes, merit fee adjustments, and student fee concessions.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 4 Scholarship Cards -->
+                    <div class="dept-grid" style="margin-bottom: 22px;">
+                        <div class="dept-card" style="border-top-color: #f59e0b;">
+                            <h4 style="font-size: 14.5px; color: #0b3b60; margin-bottom: 6px;">🏛️ MP-TAAS Post-Matric Scheme</h4>
+                            <p style="font-size: 12px; color: #64748b; margin-bottom: 8px;">State Welfare Dept (SC/ST/OBC Scholarship)</p>
+                            <div style="font-size: 16px; font-weight: 800; color: #f59e0b;">₹3,40,000 Disbursed</div>
+                            <div style="font-size: 11px; color: #166534; margin-top: 4px;">24 Beneficiaries Enrolled</div>
+                        </div>
+                        <div class="dept-card" style="border-top-color: #10b981;">
+                            <h4 style="font-size: 14.5px; color: #0b3b60; margin-bottom: 6px;">🌟 Medhavi Vidyarthi Yojana (MMVY)</h4>
+                            <p style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Govt of MP 75%+ Academic Merit Waiver</p>
+                            <div style="font-size: 16px; font-weight: 800; color: #059669;">₹1,80,000 Disbursed</div>
+                            <div style="font-size: 11px; color: #166534; margin-top: 4px;">12 Scholars Qualified</div>
+                        </div>
+                        <div class="dept-card" style="border-top-color: #6366f1;">
+                            <h4 style="font-size: 14.5px; color: #0b3b60; margin-bottom: 6px;">🎖️ IES Institutional Merit Waiver</h4>
+                            <p style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Founder Chancellor Excellence Concession</p>
+                            <div style="font-size: 16px; font-weight: 800; color: #4338ca;">₹95,000 Disbursed</div>
+                            <div style="font-size: 11px; color: #166534; margin-top: 4px;">8 Meritorious Scholars</div>
+                        </div>
+                        <div class="dept-card" style="border-top-color: #ec4899;">
+                            <h4 style="font-size: 14.5px; color: #0b3b60; margin-bottom: 6px;">👩‍🎓 AICTE Pragati & Saksham</h4>
+                            <p style="font-size: 12px; color: #64748b; margin-bottom: 8px;">Girl Child Technical Education Grant</p>
+                            <div style="font-size: 16px; font-weight: 800; color: #db2777;">₹1,20,000 Disbursed</div>
+                            <div style="font-size: 11px; color: #166534; margin-top: 4px;">6 Female Scholars Funded</div>
+                        </div>
+                    </div>
+
+                    <!-- Award Concession Form -->
+                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 22px;">
+                        <h4 style="font-size: 15px; color: #0b3b60; margin-bottom: 12px;">✍️ Apply Scholarship Credit / Concession Waiver to Scholar</h4>
+                        <form onsubmit="handleApplyScholarshipConcession(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="schol-student-id">Select Scholar ID *</label>
+                                    <select id="schol-student-id" required class="accsoft-input">
+                                        <option value="">-- Choose Enrolled Scholar --</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="schol-scheme">Scholarship Scheme *</label>
+                                    <select id="schol-scheme" required class="accsoft-input">
+                                        <option value="MP-TAAS Post-Matric OBC/SC/ST">MP-TAAS Post-Matric OBC/SC/ST</option>
+                                        <option value="Mukhyamantri Medhavi Vidyarthi Yojana (MMVY)">Mukhyamantri Medhavi Vidyarthi Yojana (MMVY)</option>
+                                        <option value="IES Chancellor Merit Concession">IES Chancellor Merit Concession</option>
+                                        <option value="Staff Ward Education Concession">Staff Ward Education Concession</option>
+                                        <option value="Sports / Cultural Excellence Concession">Sports / Cultural Excellence Concession</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="schol-amount">Concession / Scholarship Amount (₹) *</label>
+                                    <input type="number" id="schol-amount" required class="accsoft-input" min="500" max="100000" placeholder="e.g. 15000">
+                                </div>
+                                <div class="form-group">
+                                    <label for="schol-sanction-no">Sanction Order / Directorate Approval Ref *</label>
+                                    <input type="text" id="schol-sanction-no" required class="accsoft-input" placeholder="e.g. MP-GOV/2024/SCH-8812">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="schol-remarks">Approval Notes & Authorization Remarks</label>
+                                <input type="text" id="schol-remarks" class="accsoft-input" placeholder="Sanctioned by Registrar as per MP Govt Gazette 2024">
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="btn-submit-scholarship">
+                                ✓ Sanction & Credit Scholarship to Student Fee
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Scholarship Registry Table -->
+                    <h4 style="font-size: 15px; color: #0b3b60; margin-bottom: 12px;">Sanctioned Scholarship & Concession Registry</h4>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Sanction ID</th>
+                                    <th>Scholar Name (ID)</th>
+                                    <th>Scheme Name</th>
+                                    <th>Concession (₹)</th>
+                                    <th>Sanction Order</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scholarship-tbody">
+                                <tr>
+                                    <td><strong>#SCH-2401</strong></td>
+                                    <td>Rahul Sharma (STU1001)</td>
+                                    <td>MP-TAAS Post-Matric</td>
+                                    <td><strong>₹25,000.00</strong></td>
+                                    <td>MP-GOV/2024/7712</td>
+                                    <td><span class="badge" style="background: #dcfce7; color: #15803d;">Credit Adjusted</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>#SCH-2402</strong></td>
+                                    <td>Sneha Singh (STU1004)</td>
+                                    <td>AICTE Pragati Scheme</td>
+                                    <td><strong>₹50,000.00</strong></td>
+                                    <td>AICTE/PRAG/2024/991</td>
+                                    <td><span class="badge" style="background: #dcfce7; color: #15803d;">Credit Adjusted</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- TAB 11: INSTITUTIONAL AUDIT TRAIL          -->
+            <!-- ========================================== -->
+            <div id="section-audit" class="tab-content">
+                <div class="card">
+                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                        <div>
+                            <h3 class="card-title" style="color: #0f2942;">📜 Central Institutional Audit Trail & System Log</h3>
+                            <p class="text-muted" style="font-size: 12.5px; margin-top: 2px;">
+                                Timestamped immutable event register of fee payments, cashier window approvals, student admissions, and status mutations.
+                            </p>
+                        </div>
+                        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                            <button type="button" class="chip-btn" id="audit-filter-all" onclick="filterAuditLogs('all')" style="background: #0b3b60; color: white;">All Events</button>
+                            <button type="button" class="chip-btn" id="audit-filter-payment" onclick="filterAuditLogs('payment')">Payments</button>
+                            <button type="button" class="chip-btn" id="audit-filter-admission" onclick="filterAuditLogs('admission')">Admissions</button>
+                            <button type="button" class="chip-btn" id="audit-filter-approval" onclick="filterAuditLogs('approval')">Approvals</button>
+                        </div>
+                    </div>
+
+                    <div class="audit-list" id="audit-list-container">
+                        <!-- Loaded dynamically via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Official IES AccSoft 2.0 Footer -->
+            <footer style="text-align: center; padding: 22px; font-size: 12px; color: #64748b; border-top: 1px solid #e2e8f0; margin-top: 30px; background: #ffffff; border-radius: var(--radius-sm);">
+                <div><strong>AccSoft 2.0 Web Campus ERP</strong> — A Product for Educational Institutes by Emperor Solutions Pvt. Ltd.</div>
+                <div style="margin-top: 4px; color: #94a3b8;">© 2024–2025 IES University & Group of Institutions, Bhopal. All rights reserved. | Approved by UGC, AICTE & MP PURC</div>
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- Scholar ERP Dossier Modal Popup (AccSoft 2.0 Student Profile) -->
+    <div class="student-detail-modal" id="studentDetailModal">
+        <div class="student-modal-card" style="border-top: 5px solid #1e3a8a;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #e2e8f0; padding-bottom: 14px; margin-bottom: 18px;">
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <div style="width: 44px; height: 44px; border-radius: 8px; background: #0f2942; color: #f59e0b; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800;">
+                        🏛️
+                    </div>
+                    <div>
+                        <h3 style="color: #0f2942; font-size: 17px; margin-bottom: 2px;" id="modalStudentTitle">Scholar Academic Dossier</h3>
+                        <p style="font-size: 12px; color: #64748b; margin: 0;">IES University & Group of Institutions Central AccSoft Record</p>
+                    </div>
+                </div>
+                <button class="chip-btn" onclick="closeStudentModal()" style="font-size: 16px; padding: 4px 10px; background: #f1f5f9; color: #475569;">✕</button>
+            </div>
+            
+            <div id="studentDetailBody">
+                <!-- Dynamically populated -->
+            </div>
+            
+            <div style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 14px;">
+                <button class="btn btn-outline" onclick="closeStudentModal()">Close Window</button>
+                <button class="btn btn-accent" id="modalToggleStatusBtn" onclick="toggleStudentCourseStatusFromModal()">
+                    🎓 Toggle Course Status
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAdminDashboard();
+            const d = new Date();
+            d.setDate(d.getDate() + 30);
+            const dueInput = document.getElementById('assign-due-date');
+            if (dueInput) dueInput.value = d.toISOString().split('T')[0];
+        });
+
+        function toggleSidebar() {
+            document.body.classList.toggle('sidebar-closed');
+            document.body.classList.toggle('sidebar-open');
+            const btn = document.getElementById('sidebar-toggle');
+            if (btn) btn.classList.toggle('active');
+            const backdrop = document.getElementById('sidebar-backdrop');
+            if (backdrop) backdrop.classList.toggle('active');
+        }
+
+        function switchSidebarTab(tabId) {
+            document.querySelectorAll('.sidebar-link').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById(`side-link-${tabId}`);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            document.querySelectorAll('.tab-content').forEach(view => view.classList.remove('active'));
+            const activeView = document.getElementById(`section-${tabId}`);
+            if (activeView) activeView.classList.add('active');
+
+            if (window.innerWidth <= 992) {
+                document.body.classList.remove('sidebar-open');
+                const backdrop = document.getElementById('sidebar-backdrop');
+                if (backdrop) backdrop.classList.remove('active');
+                const btn = document.getElementById('sidebar-toggle');
+                if (btn) btn.classList.remove('active');
+            }
+        }
+
+        function toggleFilterValue() {
+            const val = document.getElementById('assign-filter-type').value;
+            const grp = document.getElementById('filter-value-group');
+            grp.style.display = (val === 'all') ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html>
